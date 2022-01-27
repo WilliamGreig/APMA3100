@@ -36,6 +36,6 @@ for a in books:
                                 book_orders.append(t_order)
 
 for x in book_orders:
-    print(x)
+    print("\item " + "$[$ " + x[0] + ", " + x[1] + ", " + x[2] + ", " + x[3] + " $]$")
 
 print(len(book_orders))
