@@ -62,8 +62,8 @@ for zeropattern in fin_zero_perms:
         for n in numpattern:
             npstr += str(n)
         final_perm = configureNum(zpstr, npstr)
-        if count < 101:
-            print("\item (num: " + str(count) + ") " + final_perm)
+        # if count < 101:
+        print("\item (num: " + str(count) + ") " + final_perm)
 
 
 print("Final Count: " + str(count))
