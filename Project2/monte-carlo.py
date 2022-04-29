@@ -77,9 +77,15 @@ for i in range(len(results)):
     print("Trial {}: {}".format(i, results[i]))
 
 est_mean = sum(results)/len(results)
+import statistics
+print("est_mean: {}".format(est_mean))
 results.sort()
 est_first_q = results[int(len(results) * 0.25)]
+print(results[int(len(results) * 0.5)])
+
 est_third_q = results[int(len(results) * 0.75)]
+print("est_first_q: {}".format(est_first_q))
+print("est_third_q: {}".format(est_third_q))
 
 # returns estimation of prob. CDF of some w (for RV W)
 def CDF_W(results, w):
@@ -114,5 +120,17 @@ print("CDF_R_80: {}".format(CDF_R_80))
 CDF_R_100 = 1 - CDF_W(results, 100)
 print("CDF_R_100: {}".format(CDF_R_100))
 
-plt.hist(x=results, bins=30)
+
+cdf_res_x = []
+cdf_res_y = []
+for w in range(6, 128):
+    cdf_res_x.append(w)
+    cdf_w = CDF_W(results, w)
+    cdf_res_y.append(cdf_w)
+
+plt.scatter(cdf_res_x, cdf_res_y)
+plt.title("Estimated CDF of W")
+plt.ylabel("CDF(W): P[W <= w] -- (probability)")
+plt.xlabel("Values of w (seconds)")
+
 plt.show()
