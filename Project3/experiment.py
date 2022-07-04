@@ -71,6 +71,11 @@ for outcome in results:
     list_variance.append(cur_sum/len(outcome))
     index = index + 1
 
+for i in range(len(list_mus)):
+    print("---- n = {} ----".format(sample_sizes[i]))
+    print("mu: {}".format(list_mus[i]))
+    print("sqrt(var): {}".format(math.sqrt(list_variance[i])))
+
 # Transform stage
 index = 0
 for outcome in results:
@@ -101,17 +106,20 @@ for outcome in results:
     index = index + 1
 
 
+print("j / n table")
 count = 0
 for ls in z_value_results:
     max = 0
     index = 0
     z_jIndex = 0
+    print("---------- n: {}--------".format(sample_sizes[count]))
     for z_vals in ls:
+        print("j {}: {}".format(index, abs(z_vals - phi_z[index])))
         if abs(z_vals - phi_z[index]) > max:
             max = abs(z_vals - phi_z[index])
             z_jIndex = index
         index = index + 1
-    print("z_jIndex value: {}".format(ls[z_jIndex]))
+    # print("z_jIndex value: {}".format(ls[z_jIndex]))
     print("max value {}".format(max))
     count = count + 1
 
@@ -126,23 +134,48 @@ while curr_x < 2.5:
     curr_x = curr_x + increment
 
 figure, axes = plt.subplots()
-plt.plot(z, z_value_results[0], "-o", color="blue", label="blue: n=3")
-plt.axvspan(0.48545454545454547, 0.4046545454545455, color='blue', alpha=0.3, label="MAD3 interval")
-plt.plot(z, z_value_results[1],"-o", color="red", label="red: n=9")
-plt.axvspan(0.5727272727272728, 0.34647272727272727, color='red', alpha=0.3, label="MAD9 interval")
-plt.plot(z, z_value_results[2],"-o", color="green", label="green: n=27")
-plt.axvspan(0.4381818181818182, 0.3573818181818182, color='green', alpha=0.3, label="MAD27 interval")
-plt.plot(z, z_value_results[3],"-o", color="black", label="black: n=81")
-plt.axvspan(0.42727272727272725, 0.34647272727272727, color='black', alpha=0.3, label="MAD81 interval")
-plt.plot(Phi_Xvals, Phi_Yvals, color="black", label="Normal CDF Phi(z)")
+part1 = False
+if part1:
+    plt.plot(z, z_value_results[0], "-o", color="blue", label="blue: n=3")
+    plt.axvspan(0.48545454545454547, 0.4046545454545455, color='blue', alpha=0.3, label="MAD3 interval")
+    plt.plot(z, z_value_results[1],"-o", color="red", label="red: n=9")
+    plt.axvspan(0.5727272727272728, 0.34647272727272727, color='red', alpha=0.3, label="MAD9 interval")
+    plt.plot(z, z_value_results[2],"-o", color="green", label="green: n=27")
+    plt.axvspan(0.4381818181818182, 0.3573818181818182, color='green', alpha=0.3, label="MAD27 interval")
+    plt.plot(z, z_value_results[3],"-o", color="black", label="black: n=81")
+    plt.axvspan(0.42727272727272725, 0.34647272727272727, color='black', alpha=0.3, label="MAD81 interval")
+    plt.plot(Phi_Xvals, Phi_Yvals, color="black", label="Normal CDF Phi(z)")
 
-plt.title('Empericial CDF of Estimated Means, Normal CDF, and Probability Interval of MAD(n)')
-plt.xlabel('Standardized Z-Values')
-plt.ylabel('Probability')
+    plt.title('Empericial CDF of Estimated Means, Normal CDF, and Probability Interval of MAD(n)')
+    plt.xlabel('Standardized Z-Values')
+    plt.ylabel('Probability')
 
-plt.legend()
-plt.xlim([-2.5, 2.5])
-plt.show()
+    plt.legend()
+    plt.xlim([-2.5, 2.5])
+    plt.show()
+else:
+    print("HLLO")
+    fig, axs = plt.subplots(2, 2)
+    axs[0, 0].plot(z, z_value_results[0], '-o', color="blue", label="blue: n=3")
+    axs[0, 0].plot(Phi_Xvals, Phi_Yvals, color="black", label="Normal CDF Phi(z)")
+    axs[0, 0].set_title('Normal CDF vs. Estimated Samples (n=3)')
 
+    axs[0, 1].plot(z, z_value_results[1], '-o', color="red", label="red: n=9")
+    axs[0, 1].plot(Phi_Xvals, Phi_Yvals, color="black", label="Normal CDF Phi(z)")
+    axs[0, 1].set_title('Normal CDF vs. Estimated Samples (n=9)')
 
+    axs[1, 0].plot(z, z_value_results[2], '-o', color="green", label="green: n=27")
+    axs[1, 0].plot(Phi_Xvals, Phi_Yvals, color="black", label="Normal CDF Phi(z)")
+    axs[1, 0].set_title('Normal CDF vs. Estimated Samples (n=9)')
+
+    axs[1, 1].plot(z, z_value_results[3], '-o', color="black", label="black: n=81")
+    axs[1, 1].plot(Phi_Xvals, Phi_Yvals, color="black", label="Normal CDF Phi(z)")
+    axs[1, 1].set_title('Normal CDF vs. Estimated Samples (n=9)')
+    plt.show()
+    for ax in axs.flat:
+        ax.set(xlabel='x-label', ylabel='y-label')
+
+    # Hide x labels and tick labels for top plots and y ticks for right plots.
+    for ax in axs.flat:
+        ax.label_outer()
 
